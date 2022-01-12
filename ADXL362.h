@@ -20,8 +20,7 @@
 #ifndef ADXL362_h
 #define ADXL362_h
 
-class ADXL362
-{
+class ADXL362 {
 public:
 
 	ADXL362();
@@ -31,6 +30,9 @@ public:
 	//
 	void begin(int16_t chipSelectPin = 10); 		
 	void beginMeasure(); 
+	
+	uint8_t readStatus();
+	
 	int16_t readXData();
 	int16_t readYData();
 	int16_t readZData();
@@ -45,6 +47,9 @@ public:
     void setupACActivityInterrupt(int16_t threshold, byte time);
 	void setupACInactivityInterrupt(int16_t threshold, int16_t time);
 	
+	void writeIntmap1(uint8_t value);
+	void writeIntmap2(uint8_t value);
+
 	// need to add the following functions
 	// void mapINT1(
 	// void mapINT2
@@ -56,7 +61,6 @@ public:
 	
 	void checkAllControlRegs();
 	
-
 	
 	//  Low-level SPI control, to simplify overall coding
 	byte SPIreadOneRegister(byte regAddress);
@@ -64,9 +68,28 @@ public:
 	int16_t  SPIreadTwoRegisters(byte regAddress);
 	void SPIwriteTwoRegisters(byte regAddress, int16_t twoRegValue);
 
+	// Status bits in status register
+	static const uint8_t STATUS_ERR_USER_REGS = 0x80;
+	static const uint8_t STATUS_AWAKE = 0x40;
+	static const uint8_t STATUS_INACT = 0x20;
+	static const uint8_t STATUS_ACT = 0x10;
+	static const uint8_t STATUS_FIFO_OVERRUN = 0x08;
+	static const uint8_t STATUS_FIFO_WATERMARK = 0x04;
+	static const uint8_t STATUS_FIFO_READY = 0x02;
+	static const uint8_t STATUS_DATA_READ = 0x01;
+
+	// INTMAP1 and INTMAP2
+	static const uint8_t INTMAP_INT_LOW = 0x80;
+	static const uint8_t INTMAP_AWAKE = 0x40;
+	static const uint8_t INTMAP_INACT = 0x20;
+	static const uint8_t INTMAP_ACT = 0x10;
+	static const uint8_t INTMAP_FIFO_OVERRUN = 0x08;
+	static const uint8_t INTMAP_FIFO_WATERMARK = 0x04;
+	static const uint8_t INTMAP_FIFO_READY = 0x02;
+	static const uint8_t INTMAP_DATA_READY = 0x01;
+
 private:
 
-	
 };
 
 #endif

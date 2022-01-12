@@ -71,6 +71,19 @@ void ADXL362::beginMeasure() {
 #endif
 }
 
+uint8_t ADXL362::readStatus() {
+    static const uint8_t REG_STATUS = 0x0B;
+    return SPIreadOneRegister(REG_STATUS);
+}
+
+void ADXL362::writeIntmap1(uint8_t value) {
+    SPIwriteOneRegister(0x2A, value);
+}
+
+void ADXL362::writeIntmap2(uint8_t value) {
+    SPIwriteOneRegister(0x2B, value);
+}
+
 //
 //  readXData(), readYData(), readZData(), readTemp()
 //  Read X, Y, Z, and Temp registers
